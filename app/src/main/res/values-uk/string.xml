@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cook Notes</string>
+    <string name="No">Ні</string>
+    <string name="Yes">Так</string>
+    <string name="Category">Категорія</string>
+    <string name="Title">Назва</string>
+    <string name="Ingredients">Інгредієнти:</string>
+    <string name="Ingredient">Інгредієнт</string>
+    <string name="Steps">Кроки:</string>
+    <string name="Step">Крок</string>
+    <string name="Ok">Ага</string>
+    <string name="AreYouSure">Ви впевнені, що хочете видалити цю нотатку?</string>
+    <string name="Search">Пошук</string>
+</resources>

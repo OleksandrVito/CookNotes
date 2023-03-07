@@ -1,42 +1,14 @@
 package ua.vitolex.cooknotes.feature_note.domain.repository
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
+import ua.vitolex.cooknotes.feature_note.domain.model.Ingredient
 import ua.vitolex.cooknotes.feature_note.domain.model.Note
-
-//interface NoteRepository {
-//    fun getNotes(): List<Note>
-//
-//    suspend fun getNoteById(id: Int): Note?
-//
-//    suspend fun insertNote(note: Note)
-//
-//    suspend fun deleteNote(note: Note)
-//
-//    fun getIngredients(noteId: Int): List<Ingredient>
-//
-//    suspend fun getIngredientById(noteId: Int, id: Int): Ingredient?
-//
-//    suspend fun insertIngredient(ingredient: Ingredient)
-//
-//    suspend fun deleteIngredient(ingredient: Ingredient)
-
-//    fun getSteps(noteId: Int): Flow<List<Step>>
-//
-//    suspend fun getStepById(noteId: Int, id: Int): Ingredient?
-//
-//    suspend fun insertStep(step: Step)
-//
-//    suspend fun deleteStep(step: Step)
-
-//}
+import ua.vitolex.cooknotes.feature_note.domain.model.Step
 
 @Dao
 interface NoteRepository {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNote(note: Note)
 
     @Query("SELECT * FROM note")
@@ -47,4 +19,29 @@ interface NoteRepository {
 
     @Query("SELECT * FROM note WHERE id=:nodeId")
     suspend fun getNoteById(nodeId: String): Note
+
+    @Query("SELECT * FROM ingredient WHERE noteId=:noteId")
+    suspend fun getIngredients(noteId: String): List<Ingredient>
+
+    @Query("SELECT * FROM ingredient WHERE id=:id AND noteId=:noteId")
+    suspend fun getIngredientById(noteId: String, id: Int): Ingredient?
+
+    @Insert
+    suspend fun insertIngredient(ingredient: Ingredient)
+
+    @Delete
+    suspend fun deleteIngredient(ingredient: Ingredient)
+
+    @Query("SELECT * FROM step WHERE noteId=:noteId")
+    suspend fun getSteps(noteId: String): List<Step>
+
+    @Query("SELECT * FROM step WHERE id=:id AND noteId=:noteId")
+    suspend fun getStepById(noteId: String, id: Int): Step?
+
+    @Insert
+    suspend fun insertStep(step: Step)
+
+    @Delete
+    suspend fun deleteStep(step: Step)
+
 }

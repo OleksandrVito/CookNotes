@@ -2,7 +2,8 @@ package ua.vitolex.cooknotes.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val BackgroundColor = Color(0xFFFFF4D2)
+val PrimaryColor = Color(0xFFECF2FF)
+val SecondaryColor = Color(0xFFE5D1FA)
+val BorderColor = Color(0xFFE3DFFD)
+val TextColor = Color(0xFF2E3840)

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Ingredient(
     @PrimaryKey val id: Int? = null,
-    val noteId: Int,
-    val title: String
+    var noteId: String,
+    var title: String
 
 )

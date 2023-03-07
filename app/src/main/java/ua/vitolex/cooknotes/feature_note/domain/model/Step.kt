@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class Step(
     @PrimaryKey val id: Int? = null,
-    val noteId: Int,
+    val noteId: String,
     val description: String,
 )

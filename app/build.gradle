@@ -87,4 +87,13 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+
+    //image loader coil
+    implementation "io.coil-kt:coil-compose:2.1.0"
+
+    //бібліотека для статусбару
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
+
+    //бібліотека для  Google Mobile Ads SDK
+    implementation 'com.google.android.gms:play-services-ads:21.5.0'
 }

@@ -6,11 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 import ua.vitolex.cooknotes.feature_note.presentation.navigation.SetupNavHost
 import ua.vitolex.cooknotes.ui.theme.CookNotesTheme
@@ -31,6 +29,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        MobileAds.initialize(this)
     }
 }
 
