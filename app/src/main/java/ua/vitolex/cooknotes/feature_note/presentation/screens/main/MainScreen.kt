@@ -18,11 +18,13 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -58,7 +60,7 @@ fun MainScreen(navController: NavHostController) {
                         text = "Cook Notes",
                         style = MaterialTheme.typography.h1,
                         color = TextColor,
-                        fontSize = 24.sp,
+                        fontSize = 24.scaledSp(),
                         modifier = Modifier
                             .padding(start = 8.dp, top = 2.dp, bottom = 10.dp, end = 8.dp)
                             .fillMaxWidth(),
@@ -101,12 +103,14 @@ fun MainScreen(navController: NavHostController) {
                     Text(
                         text = stringResource(R.string.Search),
                         style = MaterialTheme.typography.subtitle1,
-                        color = Color.Gray
+                        color = Color.Gray,
+                        modifier = Modifier
+                            .padding(vertical = 0.dp, horizontal = 0.dp)
                     )
                 },
                 modifier = Modifier
                     .padding(vertical = 10.dp, horizontal = 14.dp)
-                    .height(50.dp)
+                    .heightIn(min = 50.dp, max = 70.dp)
                     .fillMaxWidth()
                     .border(1.dp, BorderColor, CircleShape),
                 shape = CircleShape,
@@ -120,7 +124,8 @@ fun MainScreen(navController: NavHostController) {
                 leadingIcon = {
                     Icon(imageVector = Icons.Default.Search,
                         contentDescription = "Search",
-                    tint = TextColor.copy(0.8f))
+                    tint = TextColor.copy(0.8f),
+                    )
                 },
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = TextColor,
@@ -155,8 +160,17 @@ fun MainScreen(navController: NavHostController) {
                     )
                 }
             }
-            BannerAdView(id = stringResource(id = R.string.banner_ad_unit_id1))
+//            BannerAdView(id = stringResource(id = R.string.banner_ad_unit_id1))
         }
     }
 }
 
+@Composable
+fun Int.scaledSp(): TextUnit {
+    val value: Int = this
+    return with(LocalDensity.current) {
+        val fontScale = this.fontScale
+        val textSize =  value / fontScale
+        textSize.sp
+    }
+}

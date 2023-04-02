@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -20,16 +22,24 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -92,6 +102,8 @@ fun AddEditScreen(navController: NavController, id: String?) {
 
     val noteToDelete = viewModel.noteToDelete
 
+    val focusManager = LocalFocusManager.current
+
     Scaffold(
         scaffoldState = scaffoldState,
         snackbarHost = {
@@ -112,7 +124,7 @@ fun AddEditScreen(navController: NavController, id: String?) {
                         text = "Cook Notes",
                         style = MaterialTheme.typography.h1,
                         color = TextColor,
-                        fontSize = 24.sp,
+                        fontSize = 24.scaledSp(),
                         modifier = Modifier
                             .padding(start = 8.dp, top = 2.dp, bottom = 10.dp, end = 8.dp)
                             .fillMaxWidth(),
@@ -283,6 +295,16 @@ fun AddEditScreen(navController: NavController, id: String?) {
                             style = MaterialTheme.typography.subtitle1,
                         )
                     },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        autoCorrect = true,
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Down)
+                        }
+                    )
                 )
                 CustomTextField(
                     value = category,
@@ -295,6 +317,16 @@ fun AddEditScreen(navController: NavController, id: String?) {
                             style = MaterialTheme.typography.subtitle1,
                         )
                     },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        autoCorrect = true,
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Down)
+                        }
+                    )
                 )
             }
             item {
@@ -354,6 +386,25 @@ fun AddEditScreen(navController: NavController, id: String?) {
                             style = MaterialTheme.typography.subtitle1,
                         )
                     },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        autoCorrect = true,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            if (ingredientTitle.isNotEmpty()) {
+                                viewModel.onEvent(
+                                    AddNoteEvent.AddIngredientToList(
+                                        Ingredient(
+                                            noteId = title,
+                                            title = ingredientTitle
+                                        )
+                                    )
+                                )
+                            }
+                        }
+                    ),
                     trailingIcon = {
                         Box(
                             modifier = Modifier
@@ -444,6 +495,25 @@ fun AddEditScreen(navController: NavController, id: String?) {
                             style = MaterialTheme.typography.subtitle1,
                         )
                     },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        autoCorrect = true,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            if (stepTitle.isNotEmpty()) {
+                                viewModel.onEvent(
+                                    AddNoteEvent.AddStepToList(
+                                        Step(
+                                            noteId = title,
+                                            description = stepTitle
+                                        )
+                                    )
+                                )
+                            }
+                        }
+                    ),
                     trailingIcon = {
                         Box(
                             modifier = Modifier
@@ -519,5 +589,14 @@ fun AddEditScreen(navController: NavController, id: String?) {
                 }
             )
         }
+    }
+}
+@Composable
+fun Int.scaledSp(): TextUnit {
+    val value: Int = this
+    return with(LocalDensity.current) {
+        val fontScale = this.fontScale
+        val textSize =  value / fontScale
+        textSize.sp
     }
 }
