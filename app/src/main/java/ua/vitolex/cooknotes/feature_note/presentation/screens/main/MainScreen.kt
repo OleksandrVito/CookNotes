@@ -160,7 +160,7 @@ fun MainScreen(navController: NavHostController) {
                     )
                 }
             }
-//            BannerAdView(id = stringResource(id = R.string.banner_ad_unit_id1))
+            BannerAdView(id = stringResource(id = R.string.banner_ad_unit_id1))
         }
     }
 }

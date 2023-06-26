@@ -353,7 +353,7 @@ fun DetailsScreen(navController: NavController, id: String?) {
                 }
 
             }
-//            BannerAdView(id = stringResource(id = R.string.banner_ad_unit_id2))
+            BannerAdView(id = stringResource(id = R.string.banner_ad_unit_id2))
         }
         DeleteDialog(openDialog = openDialog,  text = stringResource(R.string.AreYouSure)) {
             viewModel.deleteNote {
